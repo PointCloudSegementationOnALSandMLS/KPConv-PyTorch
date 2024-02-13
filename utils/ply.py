@@ -250,6 +250,7 @@ def write_ply(filename, field_list, field_names, triangular_faces=None):
     # Format list input to the right form
     field_list = list(field_list) if (type(field_list) == list or type(field_list) == tuple) else list((field_list,))
     for i, field in enumerate(field_list):
+        print("fiels", field)
         if field.ndim < 2:
             field_list[i] = field.reshape(-1, 1)
         if field.ndim > 2:

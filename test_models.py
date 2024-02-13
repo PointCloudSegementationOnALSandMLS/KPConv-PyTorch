@@ -32,7 +32,9 @@ import torch
 from datasets.ModelNet40 import *
 from datasets.S3DIS import *
 from datasets.SemanticKitti import *
-from datasets.toronto3d import *
+from datasets.Toronto3D import *
+from datasets.EssenMLS import *
+from datasets.EssenALS import *
 from torch.utils.data import DataLoader
 
 from utils.config import Config
@@ -96,7 +98,7 @@ if __name__ == '__main__':
     #       > 'last_XXX': Automatically retrieve the last trained model on dataset XXX
     #       > '(old_)results/Log_YYYY-MM-DD_HH-MM-SS': Directly provide the path of a trained model
 
-    chosen_log = 'results/Light_KPFCNN'
+    chosen_log = 'results/Log_2024-01-28_12-58-45'
 
     # Choose the index of the checkpoint to load OR None if you want to load the current checkpoint
     chkp_idx = -1
@@ -175,6 +177,14 @@ if __name__ == '__main__':
         test_dataset = Toronto3DDataset(config, set='test', use_potentials=True)
         test_sampler = Toronto3DSampler(test_dataset)
         collate_fn = Toronto3DCollate
+    elif config.dataset == 'EssenMLS':
+        test_dataset = EssenMLSDataset(config, set='test', use_potentials=True)
+        test_sampler = EssenMLSSampler(test_dataset)
+        collate_fn = EssenMLSCollate
+    elif config.dataset == 'EssenALSNorm':
+        test_dataset = EssenALSDataset(config, set='test', use_potentials=True)
+        test_sampler = EssenALSSampler(test_dataset)
+        collate_fn = EssenALSCollate
     elif config.dataset == 'SemanticKitti':
         test_dataset = SemanticKittiDataset(config, set=set, balance_classes=False)
         test_sampler = SemanticKittiSampler(test_dataset)
